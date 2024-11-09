@@ -1,3 +1,4 @@
+
 import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -6,6 +7,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { validate as isUUID } from "uuid";
+import { title } from 'process';
 
 @Injectable()
 export class ProductsService {
@@ -45,7 +47,11 @@ export class ProductsService {
     if (isUUID(busqueda)) {
       product = await this.productRepository.findOneBy({id: busqueda});
     }else{
-      product = await this.productRepository.findOneBy({slug: busqueda});
+      const queryBuilder = this.productRepository.createQueryBuilder();
+      product = await queryBuilder.where(`UPPER(title) =:title or slug=:slug`,{
+        title:busqueda.toUpperCase(),
+        slug:busqueda.toLowerCase(),
+      }).getOne();
     }
 
     if (!product) {
