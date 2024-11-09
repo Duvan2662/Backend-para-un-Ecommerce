@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -28,20 +28,29 @@ export class ProductsService {
 
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async findAll() {
+    return await this.productRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string) {
+    const product:Product = await this.productRepository.findOneBy({id: id});
+    if (!product) {
+      throw new NotFoundException(`Product with id, "${id}" not found`);
+    }
+
+    return product
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
     return `This action updates a #${id} product`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: string) {
+    const {affected} = await this.productRepository.delete({id:id});
+    if (affected === 0) {
+      throw new BadRequestException(`Pokemon with id "${id}" not found`);
+    }
+    return;
   }
 
 
@@ -53,3 +62,5 @@ export class ProductsService {
     throw new InternalServerErrorException('Error desconocido mirar la consola')
   }
 }
+
+
