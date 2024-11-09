@@ -25,10 +25,24 @@ $ npm install
 $ npm i -g @nestjs/cli
 ```
 
-4. Levantar la base de datos 
+4. Clonar el archivo ```.env.template``` y renombrar la copia a ```.env``` 
+
+5. LLenar las variables de entorno definidad en el ```.env```
+
+6. Levantar la base de datos (Se debe tener corriendo el Docker desktop)
 ```bash
 $ docker-compose up -d
 ```
+
+7. Poner a correr la API en modo desarrollador  
+```bash
+$ npm run start:dev
+```
+
+## Stack usado
+* PostgresSQL
+* Nest
+* Docker
 
 
 
