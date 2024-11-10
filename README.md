@@ -34,7 +34,13 @@ $ npm i -g @nestjs/cli
 $ docker-compose up -d
 ```
 
-7. Poner a correr la API en modo desarrollador  
+7. Reconstruir la base de datos con la semilla si no se tienen ningun Pokemon usando Postman realizar una peticion GET con el siguiente endpoint
+
+```bash
+$ http://localhost:3000/api/seed
+```
+
+8. Poner a correr la API en modo desarrollador  
 ```bash
 $ npm run start:dev
 ```
