@@ -124,7 +124,7 @@ export class ProductsService {
   async remove(id: string) {
     const {affected} = await this.productRepository.delete({id:id});
     if (affected === 0) {
-      throw new BadRequestException(`Pokemon with id "${id}" not found`);
+      throw new BadRequestException(`Product with id "${id}" not found`);
     }
     return;
   }
@@ -145,6 +145,18 @@ export class ProductsService {
       images: images.map(image => image.url)
     }
     
+  }
+
+  async deleteAllProducts(){
+    const query = this.productRepository.createQueryBuilder('product');
+    try {
+      return await query
+        .delete()
+        .where({})
+        .execute();
+    } catch (error) {
+      this.handleExecptions(error)
+    }
   }
 }
 
