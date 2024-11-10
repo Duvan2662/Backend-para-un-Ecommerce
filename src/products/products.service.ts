@@ -43,10 +43,19 @@ export class ProductsService {
 
   async findAll(paginationDto:PaginationDto) {
     const {limit = 10 ,offset = 0} = paginationDto;
-    return await this.productRepository.find({
+
+    const products =  await this.productRepository.find({
       take:limit,
-      skip:offset
+      skip:offset,
+      relations:{
+        images: true,
+      }
     });
+
+    return products.map(product => ({
+      ...product,
+      images:product.images.map(img => img.url)
+    }))
   }
 
   async findOne(busqueda: string) {
@@ -56,11 +65,13 @@ export class ProductsService {
     if (isUUID(busqueda)) {
       product = await this.productRepository.findOneBy({id: busqueda});
     }else{
-      const queryBuilder = this.productRepository.createQueryBuilder();
+      const queryBuilder = this.productRepository.createQueryBuilder('prod');
       product = await queryBuilder.where(`UPPER(title) =:title or slug=:slug`,{
         title:busqueda.toUpperCase(),
         slug:busqueda.toLowerCase(),
-      }).getOne();
+      })
+      .leftJoinAndSelect('prod.images','prodImages')
+      .getOne();
     }
 
     if (!product) {
@@ -105,6 +116,15 @@ export class ProductsService {
     }
     this.logger.error(error)
     throw new InternalServerErrorException('Error desconocido mirar la consola')
+  }
+
+  async findOnePlain(term:string) {
+    const {images = [], ...product} = await this.findOne(term);
+    return {
+      ...product,
+      images: images.map(image => image.url)
+    }
+    
   }
 }
 
