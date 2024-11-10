@@ -46,6 +46,8 @@ export class Product {
         default:[]
     })
     tags: string[]
+
+    
     //Images
 
 
