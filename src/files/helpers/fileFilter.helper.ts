@@ -1,4 +1,4 @@
-export const fileFilter = (req: Request, file: Express.Multer.File, callback:Function) => {
+export const fileFilter = (req: Express.Request, file: Express.Multer.File, callback:Function) => {
 
 
     console.log({file});

@@ -3,6 +3,9 @@ import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileFilter } from './helpers/fileFilter.helper';
 import { diskStorage } from 'multer';
+import { fileName } from './helpers/fileName.helper';
+
+
 
 
 @Controller('files')
@@ -18,7 +21,8 @@ export class FilesController {
     //   fileSize:1000
     // }
     storage:diskStorage({
-      destination:'./static/uploads'
+      destination:'./static/products',
+      filename:fileName,
     })
   }))
   uploadProductImage(@UploadedFile() file:Express.Multer.File){
