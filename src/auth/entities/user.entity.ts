@@ -21,11 +21,11 @@ export class User {
     @Column({
         type:'text',
     })
-    fullname: string;
+    fullName: string;
 
     @Column({
         type:'bool',
-        unique:true
+        default:true
     })
     isActive:boolean;
 
