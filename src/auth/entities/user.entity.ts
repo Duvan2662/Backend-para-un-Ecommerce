@@ -14,7 +14,8 @@ export class User {
     email:string;
 
     @Column({
-        type:'text'
+        type:'text',
+        select:false
     })
     password:string;
 
