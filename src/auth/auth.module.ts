@@ -22,7 +22,7 @@ import { JwtStrategy } from './strategis/jwt.strategy';
       inject:[ConfigService],
       useFactory:(configServices:ConfigService ) => {
         return{
-          secret:configServices.get(''),
+          secret:configServices.get('JWT_SECRET'),
           signOptions:{
           expiresIn:'2h'
         }
