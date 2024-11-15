@@ -66,6 +66,26 @@ export class AuthService {
     }
   }
 
+  async checkAuthStatus(user:User){
+    try {
+      const {email} = user
+      const userData = await this.userRepository.findOne({
+        where:{email},
+        select:{email:true, password:true, id: true, fullName:true}
+      })
+      return{
+        ...userData,
+        token: this.getJwtToken({id:userData.id})
+      }
+
+
+    } catch (error) {
+      this.handleDBErrors(error);
+      
+    }
+    
+  }
+
 
   private handleDBErrors(error:any) {
     if (error.code === '23505') {
