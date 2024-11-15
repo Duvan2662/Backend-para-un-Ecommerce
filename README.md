@@ -46,7 +46,9 @@ $ http://localhost:3000/api/seed
 ```
 
 
-
+## Notas
+* Documentacion de la API en Postman 
+[ApiDocumentation](https://documenter.getpostman.com/view/24259074/2sAYBPkESW)
 ## Stack usado
 * PostgresSQL
 * Nest
