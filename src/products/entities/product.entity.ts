@@ -6,52 +6,85 @@ import { ApiProperty } from "@nestjs/swagger";
 @Entity({name:'products'})
 export class Product {
 
-    @ApiProperty()
+    @ApiProperty({
+        example:'3c18b042-2677-44d7-8377-6e9beacd9366',
+        description:'Product ID',
+        uniqueItems: true
+    })
     @PrimaryGeneratedColumn('uuid')
     id:string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:'Kids Checkered Tee',
+        description:'Product Title',
+        uniqueItems: true
+    })
     @Column('text',{
         unique: true,
     })
     title: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:0,
+        description:'Product Price',
+    })
     @Column('float',{
         default:0
     })
     price: number;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:'The checkered tee is made from long grain, GMO free Peruvian cotton. Peru is the only country in the world where cotton is picked by hand on a large scale. The 4,500-year-old tradition prevents damage to the fiber during the picking process and removes the need to use chemicals to open the cotton plants before harvest. This environmentally friendly process results in cotton that is soft, strong, and lustrous – and the tee will get even softer with every wash.',
+        description:'Product Description',
+        default: null
+    })
     @Column({
         type:'text',
         nullable: true
     })
     description:string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:'kids_checkered_tee',
+        description:'Product Slug - for SEO',
+        uniqueItems:true
+    })
     @Column('text',{
         unique:true
     })
     slug:string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:10,
+        description:'Product Stock',
+        default:0
+    })
     @Column('int',{
         default:0
     })
     stock:number;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:['S','M','L','XS','XM','XL'],
+        description:'Product Sizes',
+    })
     @Column('text',{
         array:true
     })
     sizes: string[];
 
-    @ApiProperty()
+    @ApiProperty({
+        example:'Women',
+        description:'Product Gender',
+    })
     @Column('text')
     gender:string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:['shirt'],
+        description:'Product Tags',
+        default:null
+    })
     @Column({
         type:'text',
         array:true,
@@ -61,7 +94,11 @@ export class Product {
 
 
     //Images
-    @ApiProperty()
+    @ApiProperty({
+        example:["100042307_0_2000.jpg","100042307_alt_2000.jpg"],
+        description:'Product Images',
+        default:null
+    })
     @OneToMany(
         () => ProductImage,
         (productImage) => productImage.product,
